@@ -24,11 +24,11 @@ const createJWTUserService_1 = __importDefault(require("../../services/authServi
 const findOneUserByIdService_1 = __importDefault(require("../../services/userServices/findOneUserByIdService"));
 const loginController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.body;
-    const { error } = (0, validation_1.validateLoginSchema)(user);
-    if (error) {
-        throw new AppError_1.AppError(error.message);
-    }
     try {
+        const { error } = (0, validation_1.validateLoginSchema)(user);
+        if (error) {
+            throw new AppError_1.AppError(error.message);
+        }
         const userExist = yield (0, findOneUserByEmailService_1.default)(user.email);
         if (!userExist) {
             throw new AppError_1.AppError("Incorrect email or password", 404);
