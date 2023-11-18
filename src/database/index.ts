@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import findOneByEmailService from "../services/userServices/findOneByEmailService";
+import findOneUserByEmailService from "../services/userServices/findOneUserByEmailService";
 import createUserService from "../services/userServices/createUserService";
 import { groupPermissionSuperAdmin } from "../permissions/groups";
 
@@ -12,7 +12,7 @@ mongoose
   .connect(MONGO_URL as string)
   .then(async () => {
     console.log(`Database connected and ready for ${process.env.NODE_ENV}.`);
-    const userExist = await findOneByEmailService(
+    const userExist = await findOneUserByEmailService(
       process.env.PRIMARY_USER_EMAIL || ""
     );
     if (

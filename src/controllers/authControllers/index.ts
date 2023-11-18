@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { CreateUser } from "../../models/User/types";
-import findOneByEmailService from "../../services/userServices/findOneByEmailService";
+import findOneUserByEmailService from "../../services/userServices/findOneUserByEmailService";
 import createUserService from "../../services/userServices/createUserService";
 import extractModelProperties from "../../helpers/extractModelProperties";
 import { userModelResponse } from "./models";
@@ -10,7 +10,7 @@ import { validateLoginSchema, validateRegisterSchema } from "./validation";
 
 import bcrypt from "bcryptjs";
 import createJWTUserService from "../../services/authServices/createJWTUserService";
-import findOneUserByIdService from "../../services/userServices/findOneByIdService";
+import findOneUserByIdService from "../../services/userServices/findOneUserByIdService";
 export const loginController = async (
   req: Request,
   res: Response,
@@ -23,7 +23,7 @@ export const loginController = async (
   }
 
   try {
-    const userExist = await findOneByEmailService(user.email);
+    const userExist = await findOneUserByEmailService(user.email);
 
     if (!userExist) {
       throw new AppError("Incorrect email or password", 404);
@@ -90,7 +90,7 @@ export const registerController = async (
     throw new AppError(error.message);
   }
   try {
-    const userExist = await findOneByEmailService(user.email);
+    const userExist = await findOneUserByEmailService(user.email);
 
     if (userExist) {
       throw new AppError("User already exists");
