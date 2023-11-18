@@ -17,12 +17,11 @@ export const loginController = async (
   next: NextFunction
 ) => {
   const user: LoginUser = req.body;
-  const { error } = validateLoginSchema(user);
-  if (error) {
-    throw new AppError(error.message);
-  }
-
   try {
+    const { error } = validateLoginSchema(user);
+    if (error) {
+      throw new AppError(error.message);
+    }
     const userExist = await findOneUserByEmailService(user.email);
 
     if (!userExist) {
