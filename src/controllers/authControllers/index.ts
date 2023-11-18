@@ -84,11 +84,13 @@ export const registerController = async (
   next: NextFunction
 ) => {
   const user: CreateUser = req.body;
-  const { error } = validateRegisterSchema(user);
-  if (error) {
-    throw new AppError(error.message);
-  }
+
   try {
+    const { error } = validateRegisterSchema(user);
+    if (error) {
+      throw new AppError(error.message);
+    }
+
     const userExist = await findOneUserByEmailService(user.email);
 
     if (userExist) {

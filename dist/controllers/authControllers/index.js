@@ -74,11 +74,11 @@ const currentUserController = (req, res, next) => __awaiter(void 0, void 0, void
 exports.currentUserController = currentUserController;
 const registerController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.body;
-    const { error } = (0, validation_1.validateRegisterSchema)(user);
-    if (error) {
-        throw new AppError_1.AppError(error.message);
-    }
     try {
+        const { error } = (0, validation_1.validateRegisterSchema)(user);
+        if (error) {
+            throw new AppError_1.AppError(error.message);
+        }
         const userExist = yield (0, findOneUserByEmailService_1.default)(user.email);
         if (userExist) {
             throw new AppError_1.AppError("User already exists");
