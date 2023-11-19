@@ -13,6 +13,7 @@ import {
 import updateUserService from "../../services/userServices/updateUserService";
 import findOneUserByEmailService from "../../services/userServices/findOneUserByEmailService";
 import createUserService from "../../services/userServices/createUserService";
+import findOneUserByUsernameService from "../../services/userServices/findOneUserByUsernameService";
 
 export const getUserDetailController = async (
   req: Request,
@@ -61,7 +62,9 @@ export const createUserController = async (
       throw new AppError(error.message);
     }
 
-    const userExist = await findOneUserByEmailService(userFields.email);
+    const userExist =
+      (await findOneUserByUsernameService(userFields.username)) ||
+      (await findOneUserByEmailService(userFields.email));
 
     if (userExist) {
       throw new AppError("User already exists");
@@ -96,6 +99,14 @@ export const updateUserController = async (
 
     if (userFields.email) {
       const userExist = await findOneUserByEmailService(userFields.email);
+
+      if (userExist) {
+        throw new AppError("User already exists");
+      }
+    }
+
+    if (userFields.username) {
+      const userExist = await findOneUserByUsernameService(userFields.username);
 
       if (userExist) {
         throw new AppError("User already exists");

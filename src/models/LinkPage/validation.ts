@@ -1,9 +1,12 @@
 import Joi from "@hapi/joi";
 import { CreateLinkPage, UpdateLinkPage } from "./types";
 
-export const validateCreateLinkPageSchema = (linkPage: CreateLinkPage) => {
+export const validateCreateLinkPageSchema = (
+  linkPage: Omit<CreateLinkPage, "userId">
+) => {
   const schema = Joi.object({
     title: Joi.string().required().min(4).max(200),
+    isDefault: Joi.boolean().default(false),
     subTitle: Joi.string().min(4).max(500),
     description: Joi.string().min(10).max(1000),
     profile: Joi.string(),
@@ -16,6 +19,7 @@ export const validateCreateLinkPageSchema = (linkPage: CreateLinkPage) => {
 export const validateUpdateLinkPageSchema = (linkPage: UpdateLinkPage) => {
   const schema = Joi.object({
     title: Joi.string().min(4).max(200),
+    isDefault: Joi.boolean().default(false),
     subTitle: Joi.string().min(4).max(500),
     description: Joi.string().min(10).max(1000),
     profile: Joi.string(),

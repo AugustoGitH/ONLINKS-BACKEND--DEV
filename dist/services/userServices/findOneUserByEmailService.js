@@ -16,7 +16,7 @@ const AppError_1 = require("../../helpers/errors/AppError");
 const User_1 = __importDefault(require("../../models/User"));
 const findOneUserByEmailService = (email) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield User_1.default.findOne({ email });
+        const user = yield User_1.default.findOne({ email: email.toLowerCase() });
         return user;
     }
     catch (error) {

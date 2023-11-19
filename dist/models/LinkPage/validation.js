@@ -8,6 +8,7 @@ const joi_1 = __importDefault(require("@hapi/joi"));
 const validateCreateLinkPageSchema = (linkPage) => {
     const schema = joi_1.default.object({
         title: joi_1.default.string().required().min(4).max(200),
+        isDefault: joi_1.default.boolean().default(false),
         subTitle: joi_1.default.string().min(4).max(500),
         description: joi_1.default.string().min(10).max(1000),
         profile: joi_1.default.string(),
@@ -19,6 +20,7 @@ exports.validateCreateLinkPageSchema = validateCreateLinkPageSchema;
 const validateUpdateLinkPageSchema = (linkPage) => {
     const schema = joi_1.default.object({
         title: joi_1.default.string().min(4).max(200),
+        isDefault: joi_1.default.boolean().default(false),
         subTitle: joi_1.default.string().min(4).max(500),
         description: joi_1.default.string().min(10).max(1000),
         profile: joi_1.default.string(),

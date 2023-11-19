@@ -23,6 +23,7 @@ const validation_1 = require("../../models/User/validation");
 const updateUserService_1 = __importDefault(require("../../services/userServices/updateUserService"));
 const findOneUserByEmailService_1 = __importDefault(require("../../services/userServices/findOneUserByEmailService"));
 const createUserService_1 = __importDefault(require("../../services/userServices/createUserService"));
+const findOneUserByUsernameService_1 = __importDefault(require("../../services/userServices/findOneUserByUsernameService"));
 const getUserDetailController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -56,7 +57,8 @@ const createUserController = (req, res, next) => __awaiter(void 0, void 0, void 
         if (error) {
             throw new AppError_1.AppError(error.message);
         }
-        const userExist = yield (0, findOneUserByEmailService_1.default)(userFields.email);
+        const userExist = (yield (0, findOneUserByUsernameService_1.default)(userFields.username)) ||
+            (yield (0, findOneUserByEmailService_1.default)(userFields.email));
         if (userExist) {
             throw new AppError_1.AppError("User already exists");
         }
@@ -82,6 +84,12 @@ const updateUserController = (req, res, next) => __awaiter(void 0, void 0, void 
         }
         if (userFields.email) {
             const userExist = yield (0, findOneUserByEmailService_1.default)(userFields.email);
+            if (userExist) {
+                throw new AppError_1.AppError("User already exists");
+            }
+        }
+        if (userFields.username) {
+            const userExist = yield (0, findOneUserByUsernameService_1.default)(userFields.username);
             if (userExist) {
                 throw new AppError_1.AppError("User already exists");
             }

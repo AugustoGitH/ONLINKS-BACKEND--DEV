@@ -6,7 +6,7 @@ const findOneUserByEmailService = async (
   email: string
 ): Promise<IUser | null> => {
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase() });
 
     return user;
   } catch (error) {

@@ -5,6 +5,7 @@ exports.userModelResponse = [
     "_id",
     "name",
     "email",
+    "username",
     "permissions",
     "createdAt",
     "updatedAt",

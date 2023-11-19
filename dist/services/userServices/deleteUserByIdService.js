@@ -25,6 +25,9 @@ const deleteUserByIdService = (id) => __awaiter(void 0, void 0, void 0, function
     }
     catch (error) {
         console.error(error);
+        if (error instanceof AppError_1.AppError) {
+            throw new AppError_1.AppError(error.message, error.statusCode);
+        }
         throw new AppError_1.AppError("An error occurred while deleting user");
     }
 });

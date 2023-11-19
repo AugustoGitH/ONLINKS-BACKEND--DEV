@@ -11,6 +11,7 @@ import { validateLoginSchema, validateRegisterSchema } from "./validation";
 import bcrypt from "bcryptjs";
 import createJWTUserService from "../../services/authServices/createJWTUserService";
 import findOneUserByIdService from "../../services/userServices/findOneUserByIdService";
+import findOneUserByUsernameService from "../../services/userServices/findOneUserByUsernameService";
 export const loginController = async (
   req: Request,
   res: Response,
@@ -91,7 +92,9 @@ export const registerController = async (
       throw new AppError(error.message);
     }
 
-    const userExist = await findOneUserByEmailService(user.email);
+    const userExist =
+      (await findOneUserByUsernameService(user.username)) ||
+      (await findOneUserByEmailService(user.email));
 
     if (userExist) {
       throw new AppError("User already exists");
@@ -102,6 +105,24 @@ export const registerController = async (
     res
       .status(201)
       .json(extractModelProperties(userCreated, userModelResponse));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const verifyUsernameController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { username } = req.params;
+  try {
+    if (!username) {
+      throw new AppError("Username is required");
+    }
+    const usernameExist = await findOneUserByUsernameService(username);
+
+    res.status(200).json({ found: !!usernameExist });
   } catch (error) {
     next(error);
   }

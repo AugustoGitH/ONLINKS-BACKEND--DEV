@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const AppError_1 = require("../../helpers/errors/AppError");
 const LinkPage_1 = __importDefault(require("../../models/LinkPage"));
-const findAllLinkPagesService = () => __awaiter(void 0, void 0, void 0, function* () {
+const findAllLinkPagesService = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const linkPages = yield LinkPage_1.default.find({});
+        const linkPages = yield LinkPage_1.default.find(Object.assign({}, (userId && { userId })));
         return linkPages;
     }
     catch (error) {

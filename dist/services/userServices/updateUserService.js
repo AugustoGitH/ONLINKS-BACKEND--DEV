@@ -14,9 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const AppError_1 = require("../../helpers/errors/AppError");
 const User_1 = __importDefault(require("../../models/User"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const updateUserService = (userFields, id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userUpdated = yield User_1.default.findOneAndUpdate({ _id: id }, userFields, {
+        const userUpdated = yield User_1.default.findOneAndUpdate({ _id: id }, Object.assign(Object.assign({}, userFields), (userFields.password && {
+            password: bcryptjs_1.default.hashSync(userFields.password, 10),
+        })), {
             new: true,
         });
         if (!userUpdated) {
@@ -26,6 +29,9 @@ const updateUserService = (userFields, id) => __awaiter(void 0, void 0, void 0, 
     }
     catch (error) {
         console.error(error);
+        if (error instanceof AppError_1.AppError) {
+            throw new AppError_1.AppError(error.message, error.statusCode);
+        }
         throw new AppError_1.AppError("An error occurred while updating a user");
     }
 });

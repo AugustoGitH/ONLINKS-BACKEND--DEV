@@ -28,12 +28,14 @@ mongoose_1.default
     if (!userExist &&
         process.env.PRIMARY_USER_NAME &&
         process.env.PRIMARY_USER_EMAIL &&
-        process.env.PRIMARY_USER_PASSWORD) {
+        process.env.PRIMARY_USER_PASSWORD &&
+        process.env.PRIMARY_USERNAME) {
         yield (0, createUserService_1.default)({
             email: process.env.PRIMARY_USER_EMAIL,
             name: process.env.PRIMARY_USER_NAME,
             password: process.env.PRIMARY_USER_PASSWORD,
             permissions: groups_1.groupPermissionSuperAdmin,
+            username: process.env.PRIMARY_USERNAME,
         });
         console.log("Primary user created successfully!");
     }

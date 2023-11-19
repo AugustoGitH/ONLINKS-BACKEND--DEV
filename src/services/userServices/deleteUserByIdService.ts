@@ -14,6 +14,9 @@ const deleteUserByIdService = async (id: string): Promise<IUser> => {
     return userDeleted;
   } catch (error) {
     console.error(error);
+    if (error instanceof AppError) {
+      throw new AppError(error.message, error.statusCode);
+    }
     throw new AppError("An error occurred while deleting user");
   }
 };

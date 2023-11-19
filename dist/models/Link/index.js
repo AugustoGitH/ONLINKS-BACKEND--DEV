@@ -6,5 +6,6 @@ const linkSchema = new mongoose_1.Schema({
     href: { type: String, required: true },
     icon: { type: String, required: true },
     linkPageId: { type: String, required: true },
+    userId: { type: String, required: true },
 }, { timestamps: true });
 exports.default = (0, mongoose_1.model)("Link", linkSchema);

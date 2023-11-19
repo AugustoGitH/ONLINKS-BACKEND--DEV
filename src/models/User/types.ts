@@ -6,11 +6,15 @@ export interface User extends Document {
   email: string;
   password: string;
   permissions: Permission[];
+  username: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface CreateUser
-  extends Pick<User, "name" | "email" | "password" | "permissions"> {}
+  extends Pick<
+    User,
+    "name" | "email" | "password" | "permissions" | "username"
+  > {}
 
 export interface UpdateUser extends Partial<CreateUser> {}

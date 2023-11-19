@@ -10,6 +10,7 @@ const linkPageSchema = new Schema<LinkPage>(
     profile: { type: String, default: null },
     banner: { type: String, default: null },
     theme: { type: String, default: ThemePage.DEFAULT },
+    isDefault: { type: Boolean, default: false },
     userId: { type: String, required: true },
   },
   { timestamps: true }

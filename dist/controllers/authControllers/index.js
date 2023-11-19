@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logoutController = exports.registerController = exports.currentUserController = exports.loginController = void 0;
+exports.logoutController = exports.verifyUsernameController = exports.registerController = exports.currentUserController = exports.loginController = void 0;
 const findOneUserByEmailService_1 = __importDefault(require("../../services/userServices/findOneUserByEmailService"));
 const createUserService_1 = __importDefault(require("../../services/userServices/createUserService"));
 const extractModelProperties_1 = __importDefault(require("../../helpers/extractModelProperties"));
@@ -22,6 +22,7 @@ const validation_1 = require("./validation");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const createJWTUserService_1 = __importDefault(require("../../services/authServices/createJWTUserService"));
 const findOneUserByIdService_1 = __importDefault(require("../../services/userServices/findOneUserByIdService"));
+const findOneUserByUsernameService_1 = __importDefault(require("../../services/userServices/findOneUserByUsernameService"));
 const loginController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.body;
     try {
@@ -79,7 +80,8 @@ const registerController = (req, res, next) => __awaiter(void 0, void 0, void 0,
         if (error) {
             throw new AppError_1.AppError(error.message);
         }
-        const userExist = yield (0, findOneUserByEmailService_1.default)(user.email);
+        const userExist = (yield (0, findOneUserByUsernameService_1.default)(user.username)) ||
+            (yield (0, findOneUserByEmailService_1.default)(user.email));
         if (userExist) {
             throw new AppError_1.AppError("User already exists");
         }
@@ -93,6 +95,20 @@ const registerController = (req, res, next) => __awaiter(void 0, void 0, void 0,
     }
 });
 exports.registerController = registerController;
+const verifyUsernameController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username } = req.params;
+    try {
+        if (!username) {
+            throw new AppError_1.AppError("Username is required");
+        }
+        const usernameExist = yield (0, findOneUserByUsernameService_1.default)(username);
+        res.status(200).json({ found: !!usernameExist });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+exports.verifyUsernameController = verifyUsernameController;
 const logoutController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield (0, findOneUserByIdService_1.default)(req.user.id);

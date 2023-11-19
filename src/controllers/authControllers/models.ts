@@ -5,6 +5,7 @@ export const userModelResponse: Array<keyof (User & Document)> = [
   "_id",
   "name",
   "email",
+  "username",
   "permissions",
   "createdAt",
   "updatedAt",

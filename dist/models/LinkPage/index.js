@@ -9,6 +9,7 @@ const linkPageSchema = new mongoose_1.Schema({
     profile: { type: String, default: null },
     banner: { type: String, default: null },
     theme: { type: String, default: enums_1.ThemePage.DEFAULT },
+    isDefault: { type: Boolean, default: false },
     userId: { type: String, required: true },
 }, { timestamps: true });
 exports.default = (0, mongoose_1.model)("LinkPage", linkPageSchema);

@@ -8,12 +8,14 @@ export interface LinkPage extends Document {
   profile: string | null;
   banner: string | null;
   theme: ThemePage;
+  isDefault: boolean;
   userId: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface CreateLinkPage extends Pick<LinkPage, "title"> {
+export interface CreateLinkPage
+  extends Pick<LinkPage, "title" | "userId" | "isDefault"> {
   subTitle?: string;
   description?: string;
   profile?: string;
