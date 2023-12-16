@@ -12,6 +12,7 @@ import bcrypt from "bcryptjs";
 import createJWTUserService from "../../services/authServices/createJWTUserService";
 import findOneUserByIdService from "../../services/userServices/findOneUserByIdService";
 import findOneUserByUsernameService from "../../services/userServices/findOneUserByUsernameService";
+
 export const loginController = async (
   req: Request,
   res: Response,
@@ -26,7 +27,7 @@ export const loginController = async (
     const userExist = await findOneUserByEmailService(user.email);
 
     if (!userExist) {
-      throw new AppError("Incorrect email or password", 404);
+      throw new AppError("Incorrect email or password");
     }
 
     const passwordIsValid = bcrypt.compareSync(
@@ -35,7 +36,7 @@ export const loginController = async (
     );
 
     if (!passwordIsValid) {
-      throw new AppError("Incorrect email or password", 404);
+      throw new AppError("Incorrect email or password");
     }
 
     const payloadUser = {

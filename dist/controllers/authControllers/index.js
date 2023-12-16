@@ -32,11 +32,11 @@ const loginController = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         }
         const userExist = yield (0, findOneUserByEmailService_1.default)(user.email);
         if (!userExist) {
-            throw new AppError_1.AppError("Incorrect email or password", 404);
+            throw new AppError_1.AppError("Incorrect email or password");
         }
         const passwordIsValid = bcryptjs_1.default.compareSync(user.password, userExist.password);
         if (!passwordIsValid) {
-            throw new AppError_1.AppError("Incorrect email or password", 404);
+            throw new AppError_1.AppError("Incorrect email or password");
         }
         const payloadUser = {
             email: userExist.email,

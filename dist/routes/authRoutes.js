@@ -11,5 +11,5 @@ authRoutes.post("/v1/register", authControllers_1.registerController);
 authRoutes.post("/v1/login", authControllers_1.loginController);
 authRoutes.get("/v1/current-user", (0, isAuth_1.default)(), authControllers_1.currentUserController);
 authRoutes.get("/v1/logout", (0, isAuth_1.default)(["logout"]), authControllers_1.logoutController);
-authRoutes.get("/v1/username-search/:username", (0, isAuth_1.default)(), authControllers_1.verifyUsernameController);
+authRoutes.get("/v1/username-search/:username", authControllers_1.verifyUsernameController);
 exports.default = authRoutes;

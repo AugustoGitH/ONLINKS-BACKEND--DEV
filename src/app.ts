@@ -9,12 +9,12 @@ import * as Sentry from "@sentry/node";
 import { AppError } from "./helpers/errors/AppError";
 const app = express();
 
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: process.env.FRONT_END_URL,
-//   })
-// );
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.FRONT_END_URL,
+  })
+);
 
 app.use(cookieParser());
 app.use(express.json());
