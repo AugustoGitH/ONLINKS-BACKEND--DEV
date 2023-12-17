@@ -53,6 +53,7 @@ export const loginController = async (
       .cookie(process.env.TOKEN_NAME || "", token, {
         secure: true,
         httpOnly: true,
+        domain: process.env.FRONT_END_URL,
       })
       .json({
         message: "Login successfully",
