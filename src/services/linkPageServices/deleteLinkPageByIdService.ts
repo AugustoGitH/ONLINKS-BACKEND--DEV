@@ -1,5 +1,7 @@
 import { AppError } from "../../helpers/errors/AppError";
 import LinkPage from "../../models/LinkPage";
+import deleteLinkByIdService from "../linkServices/deleteLinkByIdService";
+import deleteLinksByLinkPageIdService from "../linkServices/deleteLinksByLinkPageIdService";
 
 const deleteLinkPageByIdService = async (
   linkPageId: string,
@@ -13,6 +15,8 @@ const deleteLinkPageByIdService = async (
     if (!linkPageDeleted) {
       throw new AppError("Link page not found", 404);
     }
+
+    await deleteLinksByLinkPageIdService(linkPageId, userId);
 
     await linkPageDeleted.deleteOne();
 

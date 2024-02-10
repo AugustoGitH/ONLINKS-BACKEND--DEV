@@ -12,6 +12,7 @@ import bcrypt from "bcryptjs";
 import createJWTUserService from "../../services/authServices/createJWTUserService";
 import findOneUserByIdService from "../../services/userServices/findOneUserByIdService";
 import findOneUserByUsernameService from "../../services/userServices/findOneUserByUsernameService";
+import normalizeString from "../../helpers/normalize-string";
 
 export const loginController = async (
   req: Request,
@@ -116,11 +117,16 @@ export const verifyUsernameController = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { username } = req.params;
+  let { username } = req.params;
+  username = normalizeString(username);
   try {
-    if (!username) {
-      throw new AppError("Username is required");
-    }
+    if (!username) throw new AppError("Username is required");
+    if (username.length < 4)
+      throw new AppError(
+        "The username does not need to be at least 4 characters long"
+      );
+    if (username.length > 60)
+      throw new AppError("The username must have a maximum of 60 characters");
     const usernameExist = await findOneUserByUsernameService(username);
 
     res.status(200).json({ found: !!usernameExist });
