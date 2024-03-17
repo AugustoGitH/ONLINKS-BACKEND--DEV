@@ -7,6 +7,9 @@ import upload from "./config/upload";
 import routes from "./routes";
 import * as Sentry from "@sentry/node";
 import { AppError } from "./helpers/errors/AppError";
+import bodyParser from "body-parser";
+import fs from "fs";
+import path from "path";
 const app = express();
 
 app.use(
@@ -19,7 +22,7 @@ app.use(
 );
 
 app.use(cookieParser());
-app.use(express.json());
+app.use(bodyParser.json({ limit: "100000mb" }));
 app.use("/public", express.static(upload.directory));
 
 app.use("/api", routes);

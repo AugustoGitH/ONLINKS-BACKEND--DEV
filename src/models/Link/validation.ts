@@ -9,7 +9,7 @@ export const validateCreateLinkSchema = (link: Omit<CreateLink, "userId">) => {
       .regex(
         /^(https?:\/\/)?([\w\d]+\.)?[\w\d-]+(\.[\w\d]{2,})+([\w\d-._~:/?#[\]@!$&'()*+,;=]+)?$/i
       ),
-    icon: Joi.string().required(),
+    icon: Joi.string().allow(null).optional(),
     linkPageId: Joi.string().required(),
   });
 
@@ -22,7 +22,7 @@ export const validateUpdateLinkSchema = (link: UpdateLink) => {
     href: Joi.string().regex(
       /^(https?:\/\/)?([\w\d]+\.)?[\w\d-]+(\.[\w\d]{2,})+([\w\d-._~:/?#[\]@!$&'()*+,;=]+)?$/i
     ),
-    icon: Joi.string(),
+    icon: Joi.string().allow(null).optional(),
   });
 
   return schema.validate(link);

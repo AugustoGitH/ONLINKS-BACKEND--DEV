@@ -253,6 +253,7 @@ export const getLinkAllController = async (
   next: NextFunction
 ) => {
   const { userId } = req.params;
+
   try {
     if (!userId) {
       throw new AppError("User id is required");
@@ -273,6 +274,7 @@ export const getLinkAllRestrictController = async (
   next: NextFunction
 ) => {
   const { linkPageId } = req.params;
+
   try {
     if (!linkPageId) {
       throw new AppError("Link Page id is required");
