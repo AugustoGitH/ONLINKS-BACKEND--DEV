@@ -8,7 +8,7 @@ export const validateCreateLinkSchema = (link: Omit<CreateLink, "userId">) => {
     href: Joi.string()
       .required()
       .regex(
-        /^(https?:\/\/)?([\w\d]+\.)?[\w\d-]+(\.[\w\d]{2,})+([\w\d-._~:/?#[\]@!$&'()*+,;=]+)?$/i
+        /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/
       ),
     icon: Joi.string().allow(null),
     linkPageId: Joi.string().required(),
@@ -22,7 +22,7 @@ export const validateUpdateLinkSchema = (link: UpdateLink) => {
     title: Joi.string().min(4).max(100),
     order: Joi.number(),
     href: Joi.string().regex(
-      /^(https?:\/\/)?([\w\d]+\.)?[\w\d-]+(\.[\w\d]{2,})+([\w\d-._~:/?#[\]@!$&'()*+,;=]+)?$/i
+      /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/
     ),
     icon: Joi.string().allow(null),
   });
