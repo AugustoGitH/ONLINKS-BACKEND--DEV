@@ -9,17 +9,16 @@ export interface LinkPage extends Document {
   banner: string | null;
   theme: ThemePage;
   isDefault: boolean;
+  order: number;
   userId: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface CreateLinkPage
-  extends Pick<LinkPage, "title" | "userId" | "isDefault"> {
-  subTitle?: string;
-  description?: string;
-  profile?: string;
-  banner?: string;
-}
+export type CreateLinkPage = Pick<
+  LinkPage,
+  "title" | "userId" | "isDefault" | "order"
+> &
+  Partial<Pick<LinkPage, "subTitle" | "description" | "profile" | "banner">>;
 
 export interface UpdateLinkPage extends Partial<CreateLinkPage> {}

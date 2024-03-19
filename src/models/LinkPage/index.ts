@@ -5,6 +5,7 @@ import { LinkPage } from "./types";
 const linkPageSchema = new Schema<LinkPage>(
   {
     title: { type: String, required: true },
+    order: { type: Number, required: true },
     subTitle: { type: String, default: null },
     description: { type: String, default: null },
     profile: { type: String, default: null },

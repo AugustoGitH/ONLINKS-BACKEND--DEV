@@ -4,6 +4,7 @@ import { Link } from "./types";
 const linkSchema = new Schema<Link>(
   {
     title: { type: String, required: true },
+    order: { type: Number, required: true },
     href: { type: String, required: true },
     icon: { type: String, default: null, required: false },
     linkPageId: { type: String, required: true },

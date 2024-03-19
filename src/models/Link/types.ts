@@ -2,6 +2,7 @@ import { Document } from "mongoose";
 
 export interface Link extends Document {
   title: string;
+  order: number;
   href: string;
   icon: string;
   linkPageId: string;
@@ -11,7 +12,10 @@ export interface Link extends Document {
 }
 
 export interface CreateLink
-  extends Pick<Link, "title" | "href" | "icon" | "linkPageId" | "userId"> {}
+  extends Pick<
+    Link,
+    "order" | "title" | "href" | "icon" | "linkPageId" | "userId"
+  > {}
 
 export interface UpdateLink
   extends Partial<Omit<CreateLink, "userId" | "linkPageId">> {}

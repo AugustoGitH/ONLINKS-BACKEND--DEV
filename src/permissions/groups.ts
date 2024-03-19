@@ -47,6 +47,7 @@ export const groupPermissionLimitLinkPageCreation: PermissionRoutesLimitLinkPage
     "unique-link-page-creation",
     "unlimited-link-page-creation",
   ];
+
 export const groupPermissionLimitLinkCreation: PermissionRoutesLimitLinkCreation[] =
   [
     "five-link-creation",
