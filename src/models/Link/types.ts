@@ -5,6 +5,7 @@ export interface Link extends Document {
   order: number;
   href: string;
   icon: string;
+  short: string | null;
   linkPageId: string;
   userId: string;
   createdAt: Date;
@@ -14,7 +15,7 @@ export interface Link extends Document {
 export interface CreateLink
   extends Pick<
     Link,
-    "order" | "title" | "href" | "icon" | "linkPageId" | "userId"
+    "order" | "title" | "href" | "icon" | "linkPageId" | "userId" | "short"
   > {}
 
 export interface UpdateLink

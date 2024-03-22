@@ -7,6 +7,7 @@ const linkSchema = new Schema<Link>(
     order: { type: Number, required: true },
     href: { type: String, required: true },
     icon: { type: String, default: null, required: false },
+    short: { type: String, default: null, required: false },
     linkPageId: { type: String, required: true },
     userId: { type: String, required: true },
   },

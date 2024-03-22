@@ -13,6 +13,8 @@ import createJWTUserService from "../../services/authServices/createJWTUserServi
 import findOneUserByIdService from "../../services/userServices/findOneUserByIdService";
 import findOneUserByUsernameService from "../../services/userServices/findOneUserByUsernameService";
 import normalizeString from "../../helpers/normalize-string";
+import { PermissionShortenerLinkEnum } from "../../permissions/enums";
+import createShortenerLinkService from "../../services/shortenerLinkServices/createShortenerLinkService";
 
 export const loginController = async (
   req: Request,
@@ -104,6 +106,21 @@ export const registerController = async (
 
     const userCreated = await createUserService(user);
 
+    if (
+      userCreated.permissions.includes(
+        PermissionShortenerLinkEnum.CREATE_SHORT_LINK_USERNAME_REGISTERING
+      )
+    ) {
+      await createShortenerLinkService({
+        originalUrl: `${process.env.LINK_USERNAME_ONLINKS as string}/${
+          userCreated.username
+        }`,
+        title: `shortener-link-username-${userCreated.username}`,
+        userId: userCreated._id,
+
+        short: user.username,
+      });
+    }
     res
       .status(201)
       .json(extractModelProperties(userCreated, userModelResponse));
@@ -121,12 +138,12 @@ export const verifyUsernameController = async (
   username = normalizeString(username);
   try {
     if (!username) throw new AppError("Username is required");
-    if (username.length < 4)
+    if (username.length < 3)
       throw new AppError(
-        "The username does not need to be at least 4 characters long"
+        "The username does not need to be at least 3 characters long"
       );
-    if (username.length > 60)
-      throw new AppError("The username must have a maximum of 60 characters");
+    if (username.length > 30)
+      throw new AppError("The username must have a maximum of 30 characters");
     const usernameExist = await findOneUserByUsernameService(username);
 
     res.status(200).json({ found: !!usernameExist });

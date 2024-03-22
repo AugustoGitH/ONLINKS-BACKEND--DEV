@@ -14,6 +14,11 @@ import updateUserService from "../../services/userServices/updateUserService";
 import findOneUserByEmailService from "../../services/userServices/findOneUserByEmailService";
 import createUserService from "../../services/userServices/createUserService";
 import findOneUserByUsernameService from "../../services/userServices/findOneUserByUsernameService";
+import { PermissionShortenerLinkEnum } from "../../permissions/enums";
+import createShortenerLinkService from "../../services/shortenerLinkServices/createShortenerLinkService";
+import deleteShortenerLinkService from "../../services/shortenerLinkServices/deleteShortenerLinkService";
+import findOneShortenerLinkByShortService from "../../services/shortenerLinkServices/findOneShortenerLinkByShortService";
+import updateShortenerLinkService from "../../services/shortenerLinkServices/updateShortenerLinkService";
 
 export const getUserDetailController = async (
   req: Request,
@@ -71,7 +76,21 @@ export const createUserController = async (
     }
 
     const userCreated = await createUserService(userFields);
+    if (
+      userCreated.permissions.includes(
+        PermissionShortenerLinkEnum.CREATE_SHORT_LINK_USERNAME_REGISTERING
+      )
+    ) {
+      await createShortenerLinkService({
+        originalUrl: `${process.env.LINK_USERNAME_ONLINKS as string}/${
+          userCreated.username
+        }`,
+        title: `shortener-link-username-${userCreated.username}`,
+        userId: userCreated._id,
 
+        short: userCreated.username,
+      });
+    }
     res
       .status(201)
       .json(extractModelProperties(userCreated, userModelResponse));
@@ -112,7 +131,20 @@ export const updateUserController = async (
         throw new AppError("User already exists");
       }
     }
-
+    if (userFields.username) {
+      const shortFinded = await findOneShortenerLinkByShortService(
+        userFields.username
+      );
+      if (shortFinded) {
+        await updateShortenerLinkService(shortFinded._id, {
+          short: userFields.username,
+          originalUrl: `${process.env.LINK_USERNAME_ONLINKS as string}/${
+            userFields.username
+          }`,
+          title: `shortener-link-username-${userFields.username}`,
+        });
+      }
+    }
     const userUpdated = await updateUserService(userFields, id);
 
     res
@@ -133,6 +165,18 @@ export const deleteUserController = async (
     if (!id) throw new AppError("Id is required");
     const userDeleted = await deleteUserByIdService(id);
 
+    if (
+      userDeleted.permissions.includes(
+        PermissionShortenerLinkEnum.CREATE_SHORT_LINK_USERNAME_REGISTERING
+      )
+    ) {
+      const short = await findOneShortenerLinkByShortService(
+        userDeleted.username
+      );
+      if (short) {
+        await deleteShortenerLinkService(short._id);
+      }
+    }
     res
       .status(201)
       .json(extractModelProperties(userDeleted, userModelResponse));

@@ -2,6 +2,7 @@ import {
   Permission,
   PermissionRoutesLimitLinkCreation,
   PermissionRoutesLimitLinkPageCreation,
+  PermissionShortenerLink,
 } from "./types";
 
 export const groupPermissionAll: Permission[] = [
@@ -37,6 +38,13 @@ export const groupPermissionAll: Permission[] = [
   "update-link-restrict",
   "update-user",
   "view-panel",
+  "create-short-link-username-registering",
+  "shorten-link-page-links",
+];
+
+export const groupPermissionShortenerLink: PermissionShortenerLink[] = [
+  "create-short-link-username-registering",
+  "shorten-link-page-links",
 ];
 
 export const groupPermissionSuperAdmin: Permission[] = groupPermissionAll;

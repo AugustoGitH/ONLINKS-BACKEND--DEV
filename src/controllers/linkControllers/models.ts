@@ -7,6 +7,7 @@ export const linkModelResponse: Array<keyof Link> = [
   "_id",
   "icon",
   "linkPageId",
+  "short",
   "userId",
   "createdAt",
   "updatedAt",

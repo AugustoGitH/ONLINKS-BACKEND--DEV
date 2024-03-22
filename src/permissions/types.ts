@@ -41,6 +41,9 @@ export type PermissionRoutesLimitLinkCreation =
 
 export type PermissionPlus = "view-panel";
 
+export type PermissionShortenerLink =
+  | "create-short-link-username-registering"
+  | "shorten-link-page-links";
 export type Permission =
   | PermissionRoutesUser
   | PermissionPlus
@@ -48,4 +51,5 @@ export type Permission =
   | PermissionRoutesAuth
   | PermissionRoutesLink
   | PermissionRoutesLimitLinkCreation
-  | PermissionRoutesLimitLinkPageCreation;
+  | PermissionRoutesLimitLinkPageCreation
+  | PermissionShortenerLink;

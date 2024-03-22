@@ -2,7 +2,7 @@ import { AppError } from "../../helpers/errors/AppError";
 import Link from "../../models/Link";
 import LinkPage from "../../models/LinkPage";
 
-const deleteLinksByLinkPageIdService = async (
+const deleteAllLinksByLinkPageIdService = async (
   linkPageId: string,
   userId?: string
 ) => {
@@ -22,4 +22,4 @@ const deleteLinksByLinkPageIdService = async (
   }
 };
 
-export default deleteLinksByLinkPageIdService;
+export default deleteAllLinksByLinkPageIdService;

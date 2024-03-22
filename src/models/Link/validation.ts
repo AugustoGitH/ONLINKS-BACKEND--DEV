@@ -1,7 +1,9 @@
 import Joi from "@hapi/joi";
 import { CreateLink, UpdateLink } from "./types";
 
-export const validateCreateLinkSchema = (link: Omit<CreateLink, "userId">) => {
+export const validateCreateLinkSchema = (
+  link: Omit<CreateLink, "userId" | "short">
+) => {
   const schema = Joi.object({
     title: Joi.string().required().min(4).max(100),
     order: Joi.number().required(),

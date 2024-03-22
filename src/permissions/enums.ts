@@ -45,7 +45,10 @@ export enum PermissionRoutesLimitLinkCreationEnum {
   FOUR_LILNK_CREATION = "four-link-creation",
   FIVE_LINK_CREATION = "five-link-creation",
 }
-
+export enum PermissionShortenerLinkEnum {
+  CREATE_SHORT_LINK_USERNAME_REGISTERING = "create-short-link-username-registering",
+  SHORTEN_LINK_PAGE_LINKS = "shorten-link-page-links",
+}
 export enum PermissionPlusEnum {
   VIEW_PANEL = "view-panel",
 }

@@ -1,6 +1,7 @@
 import { AppError } from "../../helpers/errors/AppError";
 import User from "../../models/User";
 import { User as IUser } from "../../models/User/types";
+import deleteAllLinkPagesByUserIdService from "../linkPageServices/deleteAllLinkPagesByUserIdService";
 
 const deleteUserByIdService = async (id: string): Promise<IUser> => {
   try {
@@ -10,6 +11,8 @@ const deleteUserByIdService = async (id: string): Promise<IUser> => {
     }
 
     await userDeleted.deleteOne();
+
+    await deleteAllLinkPagesByUserIdService(id);
 
     return userDeleted;
   } catch (error) {

@@ -17,15 +17,23 @@ import findOneLinkByIdService from "../../services/linkServices/findOneLinkByIdS
 import updateLinkService from "../../services/linkServices/updateLinkService";
 import deleteLinkByIdService from "../../services/linkServices/deleteLinkByIdService";
 import validPermissions from "../../helpers/validPermissions";
+import createShortenerLinkService from "../../services/shortenerLinkServices/createShortenerLinkService";
+import { PermissionShortenerLinkEnum } from "../../permissions/enums";
+import updateShortenerLinkService from "../../services/shortenerLinkServices/updateShortenerLinkService";
+import findOneShortenerLinkByShortService from "../../services/shortenerLinkServices/findOneShortenerLinkByShortService";
+import linkRoutes from "../../routes/linkRoutes";
+import deleteShortenerLinkService from "../../services/shortenerLinkServices/deleteShortenerLinkService";
 
 export const createLinkController = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const link: Omit<CreateLink, "userId"> = req.body;
+  const link: Omit<CreateLink, "userId" | "short"> = req.body;
+
   try {
     const { error } = validateCreateLinkSchema(link);
+
     if (error) {
       throw new AppError(error.message);
     }
@@ -73,9 +81,24 @@ export const createLinkController = async (
       throw new AppError("A link with the same url already exists");
     }
 
+    let short = null;
+    if (
+      req.user.permissions.includes(
+        PermissionShortenerLinkEnum.SHORTEN_LINK_PAGE_LINKS
+      )
+    ) {
+      const { short: shortLink } = await createShortenerLinkService({
+        originalUrl: link.href,
+        title: link.title,
+        userId: req.user.id,
+      });
+      short = shortLink;
+    }
+
     const linkCreated = await createLinkService({
       ...link,
       userId: req.user.id,
+      short,
     });
 
     res
@@ -136,7 +159,7 @@ export const updateLinkRestrictController = async (
   res: Response,
   next: NextFunction
 ) => {
-  const linkFields: Omit<UpdateLink, "userId"> = req.body;
+  const linkFields: Omit<UpdateLink, "userId" | "short"> = req.body;
   const { id } = req.params;
 
   try {
@@ -160,7 +183,7 @@ export const updateLinkRestrictController = async (
     if (linkFields.title) {
       const linkTitleExist = await findOneLinkByTitleService({
         title: linkFields.title,
-        linkPageId: linkExist._id,
+        linkPageId: linkExist.linkPageId,
         userId: req.user.id,
       });
       if (linkTitleExist) {
@@ -171,12 +194,27 @@ export const updateLinkRestrictController = async (
     if (linkFields.href) {
       const linkHrefExist = await findOneLinkByHrefService({
         href: linkFields.href,
-        linkPageId: linkExist._id,
+        linkPageId: linkExist.linkPageId,
         userId: req.user.id,
       });
       if (linkHrefExist) {
         throw new AppError("A link with the same href already exists");
       }
+    }
+
+    const isPermissionShortenLinkPageLinks = req.user.permissions.includes(
+      PermissionShortenerLinkEnum.SHORTEN_LINK_PAGE_LINKS
+    );
+
+    const shortFinded = linkExist.short
+      ? await findOneShortenerLinkByShortService(linkExist.short)
+      : null;
+
+    if (isPermissionShortenLinkPageLinks && shortFinded) {
+      await updateShortenerLinkService(shortFinded._id, {
+        title: linkFields.title,
+        originalUrl: linkFields.href,
+      });
     }
 
     const linkUpdated = await updateLinkService(
@@ -197,7 +235,7 @@ export const updateLinkController = async (
   res: Response,
   next: NextFunction
 ) => {
-  const linkFields: Omit<UpdateLink, "userId"> = req.body;
+  const linkFields: Omit<UpdateLink, "userId" | "short"> = req.body;
   const { id } = req.params;
 
   try {
@@ -220,7 +258,7 @@ export const updateLinkController = async (
     if (linkFields.title) {
       const linkTitleExist = await findOneLinkByTitleService({
         title: linkFields.title,
-        linkPageId: linkExist._id,
+        linkPageId: linkExist.linkPageId,
       });
       if (linkTitleExist) {
         throw new AppError("A link with the same title already exists");
@@ -230,11 +268,26 @@ export const updateLinkController = async (
     if (linkFields.href) {
       const linkHrefExist = await findOneLinkByHrefService({
         href: linkFields.href,
-        linkPageId: linkExist._id,
+        linkPageId: linkExist.linkPageId,
       });
       if (linkHrefExist) {
         throw new AppError("A link with the same href already exists");
       }
+    }
+
+    const isPermissionShortenLinkPageLinks = req.user.permissions.includes(
+      PermissionShortenerLinkEnum.SHORTEN_LINK_PAGE_LINKS
+    );
+
+    const shortFinded = linkExist.short
+      ? await findOneShortenerLinkByShortService(linkExist.short)
+      : null;
+
+    if (isPermissionShortenLinkPageLinks && shortFinded) {
+      await updateShortenerLinkService(shortFinded._id, {
+        title: linkFields.title,
+        originalUrl: linkFields.href,
+      });
     }
 
     const linkUpdated = await updateLinkService(linkFields, linkExist._id);
@@ -300,7 +353,19 @@ export const deleteLinkController = async (
       throw new AppError("Id is required");
     }
     const linkDeleted = await deleteLinkByIdService(id);
-
+    if (
+      req.user.permissions.includes(
+        PermissionShortenerLinkEnum.SHORTEN_LINK_PAGE_LINKS
+      ) &&
+      linkDeleted.short
+    ) {
+      const shortFinded = await findOneShortenerLinkByShortService(
+        linkDeleted.short
+      );
+      if (shortFinded) {
+        await deleteShortenerLinkService(shortFinded._id);
+      }
+    }
     res
       .status(200)
       .json(extractModelProperties(linkDeleted, linkModelResponse));
@@ -320,7 +385,19 @@ export const deleteLinkRestrictController = async (
       throw new AppError("Id is required");
     }
     const linkDeleted = await deleteLinkByIdService(id, req.user.id);
-
+    if (
+      req.user.permissions.includes(
+        PermissionShortenerLinkEnum.SHORTEN_LINK_PAGE_LINKS
+      ) &&
+      linkDeleted.short
+    ) {
+      const shortFinded = await findOneShortenerLinkByShortService(
+        linkDeleted.short
+      );
+      if (shortFinded) {
+        await deleteShortenerLinkService(shortFinded._id);
+      }
+    }
     res
       .status(200)
       .json(extractModelProperties(linkDeleted, linkModelResponse));
