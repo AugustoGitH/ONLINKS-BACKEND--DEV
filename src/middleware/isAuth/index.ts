@@ -3,15 +3,7 @@ import { AppError } from "../../helpers/errors/AppError";
 import { verify } from "jsonwebtoken";
 import authConfig from "../../config/auth";
 import { Permission } from "../../permissions/types";
-
-interface PayloadUser {
-  email: string;
-  name: string;
-  permissions: Permission[];
-  id: string;
-  iat: number;
-  exp: number;
-}
+import { UserPayload } from "../../types/payload/UserPayload";
 
 const isAuth =
   (permissionsAuth?: Permission[]) =>
@@ -23,7 +15,7 @@ const isAuth =
     }
 
     try {
-      const decoded = verify(token, authConfig.secret) as PayloadUser;
+      const decoded = verify(token, authConfig.secret) as UserPayload;
       const { id, permissions } = decoded;
 
       const isValidPermissions = permissionsAuth

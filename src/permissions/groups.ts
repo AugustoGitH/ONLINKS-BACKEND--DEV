@@ -2,7 +2,9 @@ import {
   Permission,
   PermissionRoutesLimitLinkCreation,
   PermissionRoutesLimitLinkPageCreation,
+  PermissionRoutesLimitTokenRegistrationCreation,
   PermissionShortenerLink,
+  PermissionTokenRegistration,
 } from "./types";
 
 export const groupPermissionAll: Permission[] = [
@@ -36,16 +38,52 @@ export const groupPermissionAll: Permission[] = [
   "update-link",
   "update-link-page",
   "update-link-restrict",
+  "update-link-page-restrict",
   "update-user",
   "view-panel",
   "create-short-link-username-registering",
   "shorten-link-page-links",
+  "create-token-registration",
+  "delete-token-registration",
+  "delete-token-registration-restrict",
+  "find-token-registration",
+  "find-token-registration-restrict",
+  "find-token-registrations",
+  "find-token-registrations-restrict",
+  "update-token-registration",
+  "update-token-registration-restrict",
+  "four-token-registration-creation",
+  "three-token-registration-creation",
+  "two-token-registration-creation",
+  "unique-token-registration-creation",
+  "unlimited-token-registration-creation",
 ];
 
 export const groupPermissionShortenerLink: PermissionShortenerLink[] = [
   "create-short-link-username-registering",
   "shorten-link-page-links",
 ];
+
+export const groupPermissionTokenRegistration: PermissionTokenRegistration[] = [
+  "create-token-registration",
+  "delete-token-registration",
+  "delete-token-registration-restrict",
+  "find-token-registration",
+  "find-token-registration-restrict",
+  "find-token-registrations",
+  "find-token-registrations-restrict",
+  "update-token-registration",
+  "update-token-registration-restrict",
+];
+
+export const groupPermissionRoutesLimitTokenRegistrationCreation: PermissionRoutesLimitTokenRegistrationCreation[] =
+  [
+    "four-token-registration-creation",
+    "three-token-registration-creation",
+    "two-token-registration-creation",
+    "unique-token-registration-creation",
+    "unlimited-token-registration-creation",
+  ];
 
 export const groupPermissionSuperAdmin: Permission[] = groupPermissionAll;
 

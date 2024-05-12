@@ -16,10 +16,10 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const findOneUserByEmailService_1 = __importDefault(require("../services/userServices/findOneUserByEmailService"));
 const createUserService_1 = __importDefault(require("../services/userServices/createUserService"));
 const groups_1 = require("../permissions/groups");
+const createShortenerLinkService_1 = __importDefault(require("../services/shortenerLinkServices/createShortenerLinkService"));
 const MONGO_URL = process.env.NODE_ENV === "development"
     ? process.env.MONGO_URL_DEV
     : process.env.MONGO_URL_PROD;
-console.log(MONGO_URL);
 mongoose_1.default
     .connect(MONGO_URL)
     .then(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -30,7 +30,7 @@ mongoose_1.default
         process.env.PRIMARY_USER_EMAIL &&
         process.env.PRIMARY_USER_PASSWORD &&
         process.env.PRIMARY_USERNAME) {
-        yield (0, createUserService_1.default)({
+        const user = yield (0, createUserService_1.default)({
             email: process.env.PRIMARY_USER_EMAIL,
             name: process.env.PRIMARY_USER_NAME,
             password: process.env.PRIMARY_USER_PASSWORD,
@@ -38,6 +38,13 @@ mongoose_1.default
             username: process.env.PRIMARY_USERNAME,
         });
         console.log("Primary user created successfully!");
+        yield (0, createShortenerLinkService_1.default)({
+            originalUrl: `${process.env.LINK_USERNAME_ONLINKS}/${user.username}`,
+            title: `shortener-link-username-${user.username}`,
+            userId: user._id,
+            short: user.username,
+        });
+        console.log("Short user created successfully!");
     }
 }))
     .catch((error) => console.log(error));

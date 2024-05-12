@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const AppError_1 = require("../../helpers/errors/AppError");
 const LinkPage_1 = __importDefault(require("../../models/LinkPage"));
+const deleteAllLinksByLinkPageIdService_1 = __importDefault(require("../linkServices/deleteAllLinksByLinkPageIdService"));
 const deleteLinkPageByIdService = (linkPageId, userId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const linkPageDeleted = yield LinkPage_1.default.findOne(Object.assign({ _id: linkPageId }, (userId && { userId })));
@@ -21,6 +22,7 @@ const deleteLinkPageByIdService = (linkPageId, userId) => __awaiter(void 0, void
             throw new AppError_1.AppError("Link page not found", 404);
         }
         yield linkPageDeleted.deleteOne();
+        yield (0, deleteAllLinksByLinkPageIdService_1.default)(linkPageId, userId);
         return linkPageDeleted;
     }
     catch (error) {

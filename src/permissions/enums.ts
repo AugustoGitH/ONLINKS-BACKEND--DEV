@@ -22,6 +22,14 @@ export enum PermissionRoutesLinkPageEnum {
   UPDATE_LINK_RESTRICT = "update-link-restrict",
 }
 
+export enum PermissionRoutesLimitTokenRegistrationCreationEnum {
+  FOUR_TOKEN_REGISTRATION_CREATION = "four-token-registration-creation",
+  THREE_TOKEN_REGISTRATION_CREATION = "three-token-registration-creation",
+  TWO_TOKEN_REGISTRATION_CREATION = "two-token-registration-creation",
+  UNIQUE_TOKEN_REGISTRATION_CREATION = "unique-token-registration-creation",
+  UNLIMITED_TOKEN_REGISTRATION_CREATION = "unlimited-token-registration-creation",
+}
+
 export enum PermissionRoutesLinkEnum {
   CREATE_LINK = "create-link",
   FIND_LINKS = "find-links",

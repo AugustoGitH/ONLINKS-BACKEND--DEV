@@ -51,7 +51,7 @@ linkPageRoutes.patch(
 );
 linkPageRoutes.patch(
   "/restrict/v1/:id",
-  isAuth(["update-link-page", "update-link-restrict"]),
+  isAuth(["update-link-page", "update-link-page-restrict"]),
   updateLinkPageRestrictController
 );
 

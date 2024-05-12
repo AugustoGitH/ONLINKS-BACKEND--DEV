@@ -1,15 +1,9 @@
 import { sign } from "jsonwebtoken";
 import { AppError } from "../../helpers/errors/AppError";
 import authConfig from "../../config/auth";
+import { UserPayload } from "../../types/payload/UserPayload";
 
-interface PayloadUser {
-  email: string;
-  name: string;
-  permissions: string[];
-  id: string;
-}
-
-const createJWTUserService = (payload: PayloadUser) => {
+const createJWTUserAuthService = (payload: UserPayload) => {
   const { secret, expiresIn } = authConfig;
   try {
     const token = sign(payload, secret, {
@@ -23,4 +17,4 @@ const createJWTUserService = (payload: PayloadUser) => {
   }
 };
 
-export default createJWTUserService;
+export default createJWTUserAuthService;

@@ -9,7 +9,7 @@ const validPermissions_1 = __importDefault(require("../../helpers/validPermissio
 const validateCreateUserSchema = (user) => {
     const schema = joi_1.default.object({
         name: joi_1.default.string().required().min(4).max(200),
-        username: joi_1.default.string().required().min(4).max(100),
+        username: joi_1.default.string().required().min(3).max(30),
         email: joi_1.default.string().required().email().min(4).max(200),
         permissions: joi_1.default.array()
             .items(joi_1.default.string())

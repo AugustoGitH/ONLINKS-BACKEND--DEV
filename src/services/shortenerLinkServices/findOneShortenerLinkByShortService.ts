@@ -16,7 +16,7 @@ const findOneShortenerLinkByShortService = async (
     console.error(error);
     throw new AppError(
       verifyAxiosErrorMessage(error) ||
-        "An internal server error occurred when finded link!"
+        "An internal server error occurred when finded shortener link by short!"
     );
   }
 };

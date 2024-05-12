@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.groupPermissionLimitLinkCreation = exports.groupPermissionLimitLinkPageCreation = exports.groupPermissionSuperAdmin = exports.groupPermissionAll = void 0;
+exports.groupPermissionLimitLinkCreation = exports.groupPermissionLimitLinkPageCreation = exports.groupPermissionSuperAdmin = exports.groupPermissionRoutesLimitTokenRegistrationCreation = exports.groupPermissionTokenRegistration = exports.groupPermissionShortenerLink = exports.groupPermissionAll = void 0;
 exports.groupPermissionAll = [
     "create-link",
     "create-link-page",
@@ -32,8 +32,47 @@ exports.groupPermissionAll = [
     "update-link",
     "update-link-page",
     "update-link-restrict",
+    "update-link-page-restrict",
     "update-user",
     "view-panel",
+    "create-short-link-username-registering",
+    "shorten-link-page-links",
+    "create-token-registration",
+    "delete-token-registration",
+    "delete-token-registration-restrict",
+    "find-token-registration",
+    "find-token-registration-restrict",
+    "find-token-registrations",
+    "find-token-registrations-restrict",
+    "update-token-registration",
+    "update-token-registration-restrict",
+    "four-token-registration-creation",
+    "three-token-registration-creation",
+    "two-token-registration-creation",
+    "unique-token-registration-creation",
+    "unlimited-token-registration-creation",
+];
+exports.groupPermissionShortenerLink = [
+    "create-short-link-username-registering",
+    "shorten-link-page-links",
+];
+exports.groupPermissionTokenRegistration = [
+    "create-token-registration",
+    "delete-token-registration",
+    "delete-token-registration-restrict",
+    "find-token-registration",
+    "find-token-registration-restrict",
+    "find-token-registrations",
+    "find-token-registrations-restrict",
+    "update-token-registration",
+    "update-token-registration-restrict",
+];
+exports.groupPermissionRoutesLimitTokenRegistrationCreation = [
+    "four-token-registration-creation",
+    "three-token-registration-creation",
+    "two-token-registration-creation",
+    "unique-token-registration-creation",
+    "unlimited-token-registration-creation",
 ];
 exports.groupPermissionSuperAdmin = exports.groupPermissionAll;
 exports.groupPermissionLimitLinkPageCreation = [

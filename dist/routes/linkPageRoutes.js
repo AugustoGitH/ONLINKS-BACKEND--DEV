@@ -13,7 +13,7 @@ linkPageRoutes.get("/v1/:id", (0, isAuth_1.default)(["find-link-page"]), linkPag
 linkPageRoutes.get("/restrict/v1/:id", (0, isAuth_1.default)(["find-link-page", "find-link-page-restrict"]), linkPageControllers_1.getLinkPageDetailRestrictController);
 linkPageRoutes.post("/v1", (0, isAuth_1.default)(["create-link-page"]), linkPageControllers_1.createLinkPageController);
 linkPageRoutes.patch("/v1/:id", (0, isAuth_1.default)(["update-link-page"]), linkPageControllers_1.updateLinkPageController);
-linkPageRoutes.patch("/restrict/v1/:id", (0, isAuth_1.default)(["update-link-page", "update-link-restrict"]), linkPageControllers_1.updateLinkPageRestrictController);
+linkPageRoutes.patch("/restrict/v1/:id", (0, isAuth_1.default)(["update-link-page", "update-link-page-restrict"]), linkPageControllers_1.updateLinkPageRestrictController);
 linkPageRoutes.delete("/v1/:id", (0, isAuth_1.default)(["delete-link-page"]), linkPageControllers_1.deleteLinkPageController);
 linkPageRoutes.delete("/restrict/v1/:id", (0, isAuth_1.default)(["delete-link-page", "delete-link-page-restrict"]), linkPageControllers_1.deleteLinkPageRestrictController);
 exports.default = linkPageRoutes;

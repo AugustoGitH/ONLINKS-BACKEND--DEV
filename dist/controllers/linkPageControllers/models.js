@@ -5,6 +5,7 @@ exports.linkPageModelResponse = [
     "_id",
     "title",
     "subTitle",
+    "order",
     "description",
     "profile",
     "banner",
@@ -13,4 +14,5 @@ exports.linkPageModelResponse = [
     "userId",
     "createdAt",
     "updatedAt",
+    "links",
 ];

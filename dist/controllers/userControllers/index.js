@@ -24,6 +24,11 @@ const updateUserService_1 = __importDefault(require("../../services/userServices
 const findOneUserByEmailService_1 = __importDefault(require("../../services/userServices/findOneUserByEmailService"));
 const createUserService_1 = __importDefault(require("../../services/userServices/createUserService"));
 const findOneUserByUsernameService_1 = __importDefault(require("../../services/userServices/findOneUserByUsernameService"));
+const enums_1 = require("../../permissions/enums");
+const createShortenerLinkService_1 = __importDefault(require("../../services/shortenerLinkServices/createShortenerLinkService"));
+const deleteShortenerLinkService_1 = __importDefault(require("../../services/shortenerLinkServices/deleteShortenerLinkService"));
+const findOneShortenerLinkByShortService_1 = __importDefault(require("../../services/shortenerLinkServices/findOneShortenerLinkByShortService"));
+const updateShortenerLinkService_1 = __importDefault(require("../../services/shortenerLinkServices/updateShortenerLinkService"));
 const getUserDetailController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -63,6 +68,14 @@ const createUserController = (req, res, next) => __awaiter(void 0, void 0, void 
             throw new AppError_1.AppError("User already exists");
         }
         const userCreated = yield (0, createUserService_1.default)(userFields);
+        if (userCreated.permissions.includes(enums_1.PermissionShortenerLinkEnum.CREATE_SHORT_LINK_USERNAME_REGISTERING)) {
+            yield (0, createShortenerLinkService_1.default)({
+                originalUrl: `${process.env.LINK_USERNAME_ONLINKS}/${userCreated.username}`,
+                title: `shortener-link-username-${userCreated.username}`,
+                userId: userCreated._id,
+                short: userCreated.username,
+            });
+        }
         res
             .status(201)
             .json((0, extractModelProperties_1.default)(userCreated, models_1.userModelResponse));
@@ -94,6 +107,16 @@ const updateUserController = (req, res, next) => __awaiter(void 0, void 0, void 
                 throw new AppError_1.AppError("User already exists");
             }
         }
+        if (userFields.username) {
+            const shortFinded = yield (0, findOneShortenerLinkByShortService_1.default)(userFields.username);
+            if (shortFinded) {
+                yield (0, updateShortenerLinkService_1.default)(shortFinded._id, {
+                    short: userFields.username,
+                    originalUrl: `${process.env.LINK_USERNAME_ONLINKS}/${userFields.username}`,
+                    title: `shortener-link-username-${userFields.username}`,
+                });
+            }
+        }
         const userUpdated = yield (0, updateUserService_1.default)(userFields, id);
         res
             .status(201)
@@ -110,6 +133,12 @@ const deleteUserController = (req, res, next) => __awaiter(void 0, void 0, void 
         if (!id)
             throw new AppError_1.AppError("Id is required");
         const userDeleted = yield (0, deleteUserByIdService_1.default)(id);
+        if (userDeleted.permissions.includes(enums_1.PermissionShortenerLinkEnum.CREATE_SHORT_LINK_USERNAME_REGISTERING)) {
+            const short = yield (0, findOneShortenerLinkByShortService_1.default)(userDeleted.username);
+            if (short) {
+                yield (0, deleteShortenerLinkService_1.default)(short._id);
+            }
+        }
         res
             .status(201)
             .json((0, extractModelProperties_1.default)(userDeleted, models_1.userModelResponse));

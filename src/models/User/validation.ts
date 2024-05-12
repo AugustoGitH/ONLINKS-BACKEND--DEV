@@ -5,7 +5,7 @@ import validPermissions from "../../helpers/validPermissions";
 export const validateCreateUserSchema = (user: CreateUser) => {
   const schema = Joi.object({
     name: Joi.string().required().min(4).max(200),
-    username: Joi.string().required().min(4).max(100),
+    username: Joi.string().required().min(3).max(30),
     email: Joi.string().required().email().min(4).max(200),
     permissions: Joi.array()
       .items(Joi.string())

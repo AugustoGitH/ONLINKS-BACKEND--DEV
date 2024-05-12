@@ -5,16 +5,9 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import upload from "./config/upload";
 import routes from "./routes";
-import * as Sentry from "@sentry/node";
+
 import { AppError } from "./helpers/errors/AppError";
 import bodyParser from "body-parser";
-import fs from "fs";
-import path from "path";
-import axios from "axios";
-import { api } from "./config/api/axios";
-import createShortenerLinkService from "./services/shortenerLinkServices/createShortenerLinkService";
-import getAllShortenerLinksByUserId from "./services/shortenerLinkServices/getAllShortenerLinksByUserId";
-import deleteShortenerLinkService from "./services/shortenerLinkServices/deleteShortenerLinkService";
 const app = express();
 
 app.use(

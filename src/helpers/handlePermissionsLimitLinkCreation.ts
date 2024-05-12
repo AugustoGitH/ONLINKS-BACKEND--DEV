@@ -10,13 +10,13 @@ const handlePermissionsLimitLinkCreation = (permissions: string[]) => {
     ? PermissionRoutesLimitLinkCreationEnum.UNLIMITED_LINK_CREATION
     : permissions.find((p) =>
         groupPermissionLimitLinkCreation.includes(
-          p as PermissionRoutesLimitLinkCreation
+          p as PermissionRoutesLimitLinkCreationEnum
         )
       );
 
   return !limitFinded
     ? null
-    : limitsCreationLink[limitFinded as PermissionRoutesLimitLinkCreation];
+    : limitsCreationLink[limitFinded as PermissionRoutesLimitLinkCreationEnum];
 };
 
 export default handlePermissionsLimitLinkCreation;

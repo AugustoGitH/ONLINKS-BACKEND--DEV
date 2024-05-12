@@ -229,6 +229,18 @@ export const createLinkPageController = async (
       throw new AppError("Limit of broken link pages");
     }
 
+    if (linkPage.isDefault) {
+      const linkPageDefault = await findOneLinkPageDefaultService(req.user.id);
+
+      if (linkPageDefault) {
+        await updateLinkPageService(
+          { isDefault: false },
+          linkPageDefault._id,
+          req.user.id
+        );
+      }
+    }
+
     const linkPageCreated = await createLinkPageService({
       ...linkPage,
       userId: req.user.id,

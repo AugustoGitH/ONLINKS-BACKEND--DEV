@@ -10,14 +10,14 @@ const handlePermissionsLimitLinkPageCreation = (permissions: string[]) => {
     ? PermissionRoutesLimitLinkPageCreationEnum.UNLIMITED_LINK_PAGE_CREATION
     : permissions.find((p) =>
         groupPermissionLimitLinkPageCreation.includes(
-          p as PermissionRoutesLimitLinkPageCreation
+          p as PermissionRoutesLimitLinkPageCreationEnum
         )
       );
 
   return !limitFinded
     ? null
     : limitsCreationPageLink[
-        limitFinded as PermissionRoutesLimitLinkPageCreation
+        limitFinded as PermissionRoutesLimitLinkPageCreationEnum
       ];
 };
 

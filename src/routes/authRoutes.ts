@@ -1,12 +1,10 @@
-import {
-  currentUserController,
-  loginController,
-  logoutController,
-  registerController,
-  verifyUsernameController,
-} from "../controllers/authControllers";
 import { Router } from "express";
 import isAuth from "../middleware/isAuth";
+import registerController from "../controllers/authControllers/registerController";
+import loginController from "../controllers/authControllers/loginController";
+import currentUserController from "../controllers/authControllers/currentUserController";
+import logoutController from "../controllers/authControllers/logoutController";
+import verifyUsernameController from "../controllers/authControllers/verifyUsernameController";
 
 const authRoutes = Router();
 

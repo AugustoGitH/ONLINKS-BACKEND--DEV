@@ -4,6 +4,7 @@ const mongoose_1 = require("mongoose");
 const enums_1 = require("./enums");
 const linkPageSchema = new mongoose_1.Schema({
     title: { type: String, required: true },
+    order: { type: Number, required: true },
     subTitle: { type: String, default: null },
     description: { type: String, default: null },
     profile: { type: String, default: null },

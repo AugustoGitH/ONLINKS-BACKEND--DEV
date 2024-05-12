@@ -16,7 +16,7 @@ export type PermissionRoutesLinkPage =
   | "find-link-page-restrict"
   | "find-link-pages-restrict"
   | "delete-link-page-restrict"
-  | "update-link-restrict";
+  | "update-link-page-restrict";
 export type PermissionRoutesLink =
   | "create-link"
   | "find-links"
@@ -27,6 +27,22 @@ export type PermissionRoutesLink =
   | "update-link-restrict"
   | "delete-link"
   | "delete-link-restrict";
+export type PermissionTokenRegistration =
+  | "create-token-registration"
+  | "delete-token-registration-restrict"
+  | "delete-token-registration"
+  | "update-token-registration"
+  | "update-token-registration-restrict"
+  | "find-token-registration-restrict"
+  | "find-token-registration"
+  | "find-token-registrations"
+  | "find-token-registrations-restrict";
+export type PermissionRoutesLimitTokenRegistrationCreation =
+  | "unlimited-token-registration-creation"
+  | "unique-token-registration-creation"
+  | "two-token-registration-creation"
+  | "three-token-registration-creation"
+  | "four-token-registration-creation";
 export type PermissionRoutesLimitLinkPageCreation =
   | "unlimited-link-page-creation"
   | "unique-link-page-creation"
@@ -52,4 +68,6 @@ export type Permission =
   | PermissionRoutesLink
   | PermissionRoutesLimitLinkCreation
   | PermissionRoutesLimitLinkPageCreation
-  | PermissionShortenerLink;
+  | PermissionShortenerLink
+  | PermissionRoutesLimitTokenRegistrationCreation
+  | PermissionTokenRegistration;

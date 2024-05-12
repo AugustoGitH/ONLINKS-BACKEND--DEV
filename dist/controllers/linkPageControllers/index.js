@@ -182,6 +182,12 @@ const createLinkPageController = (req, res, next) => __awaiter(void 0, void 0, v
             linkPageExists.length >= limitLinkPageCreation) {
             throw new AppError_1.AppError("Limit of broken link pages");
         }
+        if (linkPage.isDefault) {
+            const linkPageDefault = yield (0, findOneLinkPageDefaultService_1.default)(req.user.id);
+            if (linkPageDefault) {
+                yield (0, updateLinkPageService_1.default)({ isDefault: false }, linkPageDefault._id, req.user.id);
+            }
+        }
         const linkPageCreated = yield (0, createLinkPageService_1.default)(Object.assign(Object.assign({}, linkPage), { userId: req.user.id }));
         res
             .status(201)

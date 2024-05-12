@@ -8,6 +8,9 @@
     "start": "nodemon dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only --ignore node_modules src/server.ts"
   },
+  "engines": {
+    "node": "20.12.2"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

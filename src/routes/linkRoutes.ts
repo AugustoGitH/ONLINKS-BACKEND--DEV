@@ -1,17 +1,15 @@
 import { Router } from "express";
 
 import isAuth from "../middleware/isAuth";
-import {
-  createLinkController,
-  deleteLinkController,
-  deleteLinkRestrictController,
-  getLinkAllController,
-  getLinkAllRestrictController,
-  getLinkDetailController,
-  getLinkDetailRestrictController,
-  updateLinkController,
-  updateLinkRestrictController,
-} from "../controllers/linkControllers";
+import getLinkAllController from "../controllers/linkControllers/getLinkAllController";
+import getLinkAllRestrictController from "../controllers/linkControllers/getLinkAllRestrictController";
+import getLinkDetailController from "../controllers/linkControllers/getLinkDetailController";
+import getLinkDetailRestrictController from "../controllers/linkControllers/getLinkDetailRestrictController";
+import createLinkController from "../controllers/linkControllers/createLinkController";
+import updateLinkController from "../controllers/linkControllers/updateLinkController";
+import updateLinkRestrictController from "../controllers/linkControllers/updateLinkRestrictController";
+import deleteLinkController from "../controllers/linkControllers/deleteLinkController";
+import deleteLinkRestrictController from "../controllers/linkControllers/deleteLinkRestrictController";
 
 const linkRoutes = Router();
 

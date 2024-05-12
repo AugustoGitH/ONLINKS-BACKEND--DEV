@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const AppError_1 = require("../../helpers/errors/AppError");
 const User_1 = __importDefault(require("../../models/User"));
+const deleteAllLinkPagesByUserIdService_1 = __importDefault(require("../linkPageServices/deleteAllLinkPagesByUserIdService"));
 const deleteUserByIdService = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userDeleted = yield User_1.default.findById(id);
@@ -21,6 +22,7 @@ const deleteUserByIdService = (id) => __awaiter(void 0, void 0, void 0, function
             throw new AppError_1.AppError("User not found", 404);
         }
         yield userDeleted.deleteOne();
+        yield (0, deleteAllLinkPagesByUserIdService_1.default)(id);
         return userDeleted;
     }
     catch (error) {
